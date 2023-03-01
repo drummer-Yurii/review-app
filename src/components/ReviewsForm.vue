@@ -8,7 +8,7 @@
                 <input type="text" placeholder="Write a review" v-model="text">
                 <button type="submit" class="btn btn-primary" :disabled="btnDisabled"></button>
             </div>
-            <div class="message">Text must be at least 10 characters</div>
+            <div class="message" v-if="message !== ''">{{ message }}</div>
         </form>
     </Card>
 </template>
@@ -32,6 +32,16 @@ watch(editedContent, (newData) => {
     if(newData.editable) {
         text.value = newData.item.text;
         rating.value = newData.item.rating;
+    }
+});
+
+watch(text, (newVal) => {
+    if(newVal.trim().length <= 10) {
+        btnDisabled.value = true
+        message.value = "Text must be at least 10 characters"
+    } else {
+        btnDisabled.value = false;
+        message.value = ''
     }
 })
 
