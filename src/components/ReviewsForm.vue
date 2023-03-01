@@ -1,6 +1,6 @@
 <template>
     <Card>
-        <form>
+        <form @submit.prevent="handleSubmit">
             <h2>How would you rate your service with us?</h2>
             <!-- Rating Component -->
             <rating-select :rating="rating" @setRating="setRating" />
@@ -17,10 +17,22 @@
 import { ref } from 'vue';
 import RatingSelect from './RatingSelect.vue';
 import Card from './shared/Card.vue';
+import { useReviewsStore } from '../stores/reviews';
+
+const store = useReviewsStore();
 const text = ref('');
 const btnDisabled = ref(false);
 const message = ref('');
 const rating = ref(10);
+
+const handleSubmit = () => {
+    const newReview = {
+        text: text.value,
+        rating: rating.value,
+    };
+    store.addReview(newReview);
+};
+
 const setRating = (val) => {
     rating.value = val;
     console.log(val);
