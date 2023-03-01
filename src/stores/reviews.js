@@ -22,5 +22,30 @@ export const useReviewsStore = defineStore('reviews', {
       console.log(newReview);
       this.reviews = [newReview, ...this.reviews];
     },
+    async fetchReviews() {
+      try {
+        const reviews = await fetch(`http://localhost:5000/reviews?_sort=id&_order=desc`);
+        const data = await reviews.json();
+        this.reviews = data;
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  },
+  getters: {
+    averageRating(state) {
+      let temp = state.reviews.reduce((acc, cur) => {
+        return acc + cur.rating;
+      }, 0) / state.reviews.length;
+      temp = temp.toFixed(1).replace(/[.,]0$/, "");
+      return temp;
+    },
+    reviewsCount() {
+      return this.reviews.length;
+    },
+    reviewsContent() {
+      return this.reviews
+    }
   },
 });

@@ -7,16 +7,21 @@
             <i class="fas fa-edit"></i>
         </button>
         <div class="num-display">
-            5
+            {{ item.rating }}
         </div>
         <div class="text-display">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quaerat, quis!
+            {{ item.text }}
         </div>
     </card>
 </template>
 
 <script setup>
 import Card from "./shared/Card.vue";
+defineProps({
+    item: {
+        type: Object,
+    },
+});
 </script>
 
 <style scoped></style>
